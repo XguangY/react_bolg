@@ -6,7 +6,7 @@ const Header = () => {
     return (
         <div className="header">
             <Row type="flex" justify="center">
-                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                <Col xs={24} sm={24} md={10} lg={15} xl={12}>
                     <span className="header-logo">徐老作</span>
                     <span className="header-txt">时更是不更</span>
                 </Col>
