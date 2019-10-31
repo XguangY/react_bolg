@@ -1,12 +1,14 @@
 import React from 'react'
 import Head from 'next/head'
-import {Row, Col, Icon, Breadcrumb} from 'antd'
+import {Row, Col, Icon, Breadcrumb, Affix} from 'antd'
 import Header from '../components/Header'
 import Advert from '../components/Advert'
 import Author from '../components/Author'
 import Footer from '../components/Footer'
 import '../static/style/components/detailsed.css'
 
+import MarkNav from 'markdown-navbar'
+import 'markdown-navbar/dist/navbar.css'
 import ReactMarkDown  from 'react-markdown'
 const Detailsed = () => {
   let markdown='# P01:课程介绍和环境搭建\n' +
@@ -27,6 +29,30 @@ const Detailsed = () => {
   '>> bbbbbbbbb\n' +
   '>>> cccccccccc\n\n'+
   '# p04:Vue3.0基础知识讲解\n' +
+  '> aaaaaaaaa\n' +
+  '>> bbbbbbbbb\n' +
+  '>>> cccccccccc\n\n'+
+  '#5 p05:Vue3.0基础知识讲解\n' +
+  '> aaaaaaaaa\n' +
+  '>> bbbbbbbbb\n' +
+  '>>> cccccccccc\n\n'+
+  '# p06:Vue3.0基础知识讲解\n' +
+  '> aaaaaaaaa\n' +
+  '>> bbbbbbbbb\n' +
+  '>>> cccccccccc\n\n'+
+  '# p07:Vue3.0基础知识讲解\n' +
+  '> aaaaaaaaa\n' +
+  '>> bbbbbbbbb\n' +
+  '>>> cccccccccc\n\n'+
+  '#5 p05:Vue3.0基础知识讲解\n' +
+  '> aaaaaaaaa\n' +
+  '>> bbbbbbbbb\n' +
+  '>>> cccccccccc\n\n'+
+  '# p06:Vue3.0基础知识讲解\n' +
+  '> aaaaaaaaa\n' +
+  '>> bbbbbbbbb\n' +
+  '>>> cccccccccc\n\n'+
+  '# p07:Vue3.0基础知识讲解\n' +
   '> aaaaaaaaa\n' +
   '>> bbbbbbbbb\n' +
   '>>> cccccccccc\n\n'+
@@ -80,6 +106,16 @@ const Detailsed = () => {
         <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={4}>
           <Author/>
           <Advert/>
+          <Affix offsetTop={5}>
+            <div className="detailed-nav comm-box">
+              <div className="nav-title">文章目录</div>
+              <MarkNav
+                className="article-menu"
+                source={markdown}
+                ordered={false}
+              />
+            </div>
+          </Affix>
         </Col>
       </Row>
       <Footer/>
