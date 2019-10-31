@@ -4,7 +4,7 @@ import { Row, Col, Icon, List } from 'antd'
 import Header from '../components/Header'
 import Author from '../components/Author'
 import Advert from '../components/Advert'
-import '../static/style/pages/index.css'
+import Footer from '../components/Footer'
 
 
 const Home = () => {
@@ -31,9 +31,9 @@ const Home = () => {
               <List.Item>
                 <div className="list-title">{item.title}</div>
                 <div className="list-icon">
-                  <span><Icon type="calendar" /> 2019-10-22</span>
-                  <span><Icon type="folder" /> 视频</span>
-                  <span><Icon type="fire" /> 5498人</span>
+                  <span><Icon type="calendar" style={{color: '#909399'}}/> 2019-10-22</span>
+                  <span><Icon type="folder" style={{color: '#409eff'}}/> 视频</span>
+                  <span><Icon type="fire" style={{color: '#F56C6C'}}/> 5498人</span>
                 </div>
                 <div className="list-context">{item.context}</div>
               </List.Item>
@@ -45,6 +45,7 @@ const Home = () => {
           <Advert/>
         </Col>
       </Row>
+      <Footer/>
     </div>
   )
 }
