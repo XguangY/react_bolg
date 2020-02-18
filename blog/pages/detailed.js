@@ -123,7 +123,7 @@ const Detailsed = () => {
   )
 }
 // 页面加载前的钩子函数
-Detailed.getInitialProps = async(context)=>{
+Detailsed.getInitialProps = async(context)=>{
 
   console.log(context.query.id)
   let id =context.query.id
@@ -131,7 +131,7 @@ Detailed.getInitialProps = async(context)=>{
 
     axios('http://127.0.0.1:7001/default/getArticleById/'+id).then(
       (res)=>{
-        console.log(title)
+        console.log(res)
         resolve(res.data.data[0])
       }
     )

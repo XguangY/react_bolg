@@ -43,6 +43,15 @@ module.exports = appInfo => {
     agent: false,
   };
 
+  config.security = {
+    csrf: { enable: false },
+    domainWhiteList: [ '*' ],
+  };
+  config.cors = {
+    origin: '*', // 只允许这个域进行访问接口
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
+  };
+
   return {
     ...config,
     ...userConfig,
