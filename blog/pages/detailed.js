@@ -7,8 +7,6 @@ import Author from '../components/Author'
 import Footer from '../components/Footer'
 import '../static/style/components/detailsed.css'
 import axios  from 'axios'
-// import MarkNav from 'markdown-navbar'
-import 'markdown-navbar/dist/navbar.css'
 import marked from 'marked'
 import hljs from "highlight.js";
 import 'highlight.js/styles/monokai-sublime.css';

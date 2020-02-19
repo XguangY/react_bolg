@@ -1,20 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import { Row, Col, Icon, List, Breadcrumb } from 'antd'
 import Header from '../components/Header'
 import Author from '../components/Author'
 import Advert from '../components/Advert'
 import Footer from '../components/Footer'
+import axios from 'axios'
+import servicePath from '../config/apiUrl'
+import Link from 'next/link'
+import marked from 'marked'
+import hljs from "highlight.js";
+import 'highlight.js/styles/monokai-sublime.css';
 
-
-const myList = () => {
-  const [myList, setMylist] = useState(
-    [
-      { title: '每日一笑212', context: '小时候偷家里钱，被老妈揍了一顿。她问我：“知道为什么打你吗？”我抽泣着说：“我拿了你十块钱。”她说：“还敢撒谎，明明偷了六十。”说完拿起鸡毛掸子又要打。这时老爸拦着她说：“你把他打傻了，他哪里还记得拿了多少。”当时觉得老爸挺好的，现在想想，这事没那么简单...' },
-      { title: '每日二笑', context: '买车前后对待公交车的态度变化：买车前：怎么还不来。买车后：怎么还不走。' },
-      { title: '回眸一笑', context: '我们应从牛、河马、大象身上深刻的认识到，光靠吃素，还有喝、拉、撤以及散步是不可能减肥的。' }
-    ]
-  )
+const myList = (list) => {
+  const [myList, setMylist] = useState(list.data)
+  useEffect(()=>{
+    setMylist(list.data)
+   })
+   const renderer = new marked.Renderer();
+   marked.setOptions({
+     renderer: renderer,
+     gfm: true,
+     pedantic: false,
+     sanitize: false,
+     tables: true,
+     breaks: false,
+     smartLists: true,
+     smartypants: false,
+     sanitize:false,
+     xhtml: false,
+     highlight: function (code) {
+             return hljs.highlightAuto(code).value;
+     }
+ 
+   }); 
   return (
     <div>
       <Head>
@@ -30,18 +49,21 @@ const myList = () => {
             </Breadcrumb>
           </div>
           <List
-            header={<div>热点栏目</div>}
             itemLayout="vertical"
             dataSource={myList}
             renderItem={item => (
               <List.Item>
-                <div className="list-title">{item.title}</div>
-                <div className="list-icon">
-                  <span><Icon type="calendar" style={{color: '#909399'}}/> 2019-10-22</span>
-                  <span><Icon type="folder" style={{color: '#409eff'}}/> 视频</span>
-                  <span><Icon type="fire" style={{color: '#F56C6C'}}/> 5498人</span>
+                <div className="list-title">
+                    <Link href={{pathname:'/detailed',query:{id:item.id}}}>
+                    <a>{item.title}</a>
+                  </Link>
                 </div>
-                <div className="list-context">{item.context}</div>
+                <div className="list-icon">
+                  <span><Icon type="calendar" />{item.addTime}</span>
+                  <span><Icon type="folder" /> {item.typeName}</span>
+                  <span><Icon type="fire" />  {item.view_count}人</span>
+                </div>
+                <div className="list-context" dangerouslySetInnerHTML={{__html: marked(item.introduce)}}/>
               </List.Item>
             )}
           />
@@ -54,6 +76,17 @@ const myList = () => {
       <Footer/>
     </div>
   )
+}
+
+myList.getInitialProps = async (context)=>{
+
+  let id =context.query.id
+  const promise = new Promise((resolve)=>{
+    axios(servicePath.getListById + id).then(
+      (res)=>resolve(res.data)
+    )
+  })
+  return await promise
 }
 
 export default myList
