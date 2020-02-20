@@ -20,7 +20,7 @@ function Login() {
                     <Input
                         id="userName"
                         size="large"
-                        placeholder="Enter your userName"
+                        placeholder={'Enter your' + userName}
                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                         onChange={(e) => { setUserName(e.target.value) }}
                     />
@@ -28,7 +28,7 @@ function Login() {
                     <Input.Password
                         id="password"
                         size="large"
-                        placeholder="Enter your password"
+                        placeholder={'Enter your' + password}
                         prefix={<Icon type="key" style={{ color: 'rgba(0,0,0,.25)' }} />}
                         onChange={(e) => { setPassword(e.target.value) }}
                     />
