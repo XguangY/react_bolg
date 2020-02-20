@@ -5,7 +5,7 @@ const Controller = require('egg').Controller;
 class HomeController extends Controller {
   async index() {
     const { ctx } = this;
-    ctx.body = 'api asdasd';
+    ctx.body = 'api 前台';
   }
   async getArticleList() {
 
