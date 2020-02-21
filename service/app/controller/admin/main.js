@@ -26,6 +26,11 @@ class MainController extends Controller {
       this.ctx.body = { data: '登录失败' };
     }
   }
+  // 后台文章类分类信息
+  async getTypeInfo() {
+    const resType = await this.app.mysql.select('type');
+    this.ctx.body = { data: resType };
+  }
 }
 
 module.exports = MainController;
