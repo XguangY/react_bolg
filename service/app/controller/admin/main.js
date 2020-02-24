@@ -13,7 +13,7 @@ class MainController extends Controller {
     const userName = this.ctx.request.body.userName;
     const password = this.ctx.request.body.password;
     const sql = " SELECT userName FROM admin_user WHERE userName = '" + userName +
-            "' AND password = '" + password + "'";
+      "' AND password = '" + password + "'";
 
     const res = await this.app.mysql.query(sql);
     if (res.length > 0) {
@@ -30,6 +30,28 @@ class MainController extends Controller {
   async getTypeInfo() {
     const resType = await this.app.mysql.select('type');
     this.ctx.body = { data: resType };
+  }
+
+  // 新增文章数据
+  async addArticle() {
+    const tmpArticle = this.ctx.request.body;
+    const result = await this.app.mysql.insert('article', tmpArticle);
+    const insertSuccess = result.affectedRows === 1; // affectedRows 是 result 下属的一个对象
+    const insertId = result.insertId;
+    this.ctx.body = {
+      isScuccess: insertSuccess,
+      insertId,
+    };
+  }
+
+  // 修改文章
+  async updateArticle() {
+    const tmpArticle = this.ctx.request.body;
+    const result = await this.app.mysql.update('article', tmpArticle);
+    const insertSuccess = result.affectedRows === 1; // affectedRows 是 result 下属的一个对象
+    this.ctx.body = {
+      isScuccess: insertSuccess,
+    };
   }
 }
 
