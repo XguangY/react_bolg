@@ -88,7 +88,7 @@ function AddArticle(props) {
             introduce: introducemd,
             addTime: showDate
         }
-        if(articleId == 0) {
+        if(articleId === 0) {
             dataProps.view_count =Math.ceil(Math.random()*100)+1000;
             axios({
                 method: 'post',

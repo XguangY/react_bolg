@@ -8,7 +8,7 @@ function Math() {
         <div>
             <Router>
                 <Route path="/" exact component={Login}></Route>
-                <Route path="/index/" exact component={AdminIndex}></Route>
+                <Route path="/index/" component={AdminIndex}></Route>
             </Router>
         </div>
     )
