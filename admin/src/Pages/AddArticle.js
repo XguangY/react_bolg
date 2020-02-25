@@ -62,25 +62,46 @@ function AddArticle(props) {
         setSelectType(value)
     }
 
-    // 数据校验
-    const saveArticle = ()=>{
-        if(!selectedType){
+    const getArticleById = (id) => {
+        axios(servicePath.getArticleById + id, {
+            withCredentials: true,
+            header: { 'Access-Control-Allow-Origin': '*' }
+        }).then(
+            res => {
+                //let articleInfo= res.data.data[0]
+                setArticleTitle(res.data.data[0].title)
+                setArticleContent(res.data.data[0].article_content)
+                let html = marked(res.data.data[0].article_content)
+                setMarkdownContent(html)
+                setIntroducemd(res.data.data[0].introduce)
+                let tmpInt = marked(res.data.data[0].introduce)
+                setIntroducehtml(tmpInt)
+                setShowDate(res.data.data[0].addTime)
+                setSelectType(res.data.data[0].typeId)
+
+            }
+        )
+    }
+
+    // 数据校验以及新增修改文章
+    const saveArticle = () => {
+        if (!selectedType) {
             message.error('必须选择文章类别')
             return false
-        }else if(!articleTitle){
+        } else if (!articleTitle) {
             message.error('文章名称不能为空')
             return false
-        }else if(!articleContent){
+        } else if (!articleContent) {
             message.error('文章内容不能为空')
             return false
-        }else if(!introducemd){
+        } else if (!introducemd) {
             message.error('简介不能为空')
             return false
-        }else if(!showDate){
+        } else if (!showDate) {
             message.error('发布日期不能为空')
             return false
         }
-        let datetext= showDate.replace('-','/') //把字符串转换成时间戳
+        let datetext = showDate.replace('-', '/') //把字符串转换成时间戳
         const dataProps = {
             type_id: selectedType,
             title: articleTitle,
@@ -88,45 +109,49 @@ function AddArticle(props) {
             introduce: introducemd,
             addTime: showDate
         }
-        if(articleId === 0) {
-            dataProps.view_count =Math.ceil(Math.random()*100)+1000;
+        if (articleId === 0) {
+            dataProps.view_count = Math.ceil(Math.random() * 100) + 1000;
             axios({
                 method: 'post',
                 url: servicePath.addArticle,
-                data:dataProps,
+                data: dataProps,
                 withCredentials: true,
             }).then(res => {
                 setArticleId(res.data.insertId)
                 console.log(res)
-                if(res.data.isScuccess){
+                if (res.data.isScuccess) {
                     message.success('文章添加成功')
-                }else{
+                } else {
                     message.error('文章添加失败');
                 }
             })
-        }else{
-            dataProps.id = articleId 
+        } else {
+            dataProps.id = articleId
             axios({
-                method:'post',
-                url:servicePath.updateArticle,
-                header:{ 'Access-Control-Allow-Origin':'*' },
-                data:dataProps,
+                method: 'post',
+                url: servicePath.updateArticle,
+                header: { 'Access-Control-Allow-Origin': '*' },
+                data: dataProps,
                 withCredentials: true
             }).then(
-                res=>{
-                if(res.data.isScuccess){
-                    message.success('文章保存成功')
-                }else{
-                    message.error('保存失败');
-                }
+                res => {
+                    if (res.data.isScuccess) {
+                        message.success('文章保存成功')
+                    } else {
+                        message.error('保存失败');
+                    }
                 }
             )
         }
-        
+
     }
-    
+
     useEffect(() => {
         gitTypeInfo()
+        const id = props.match.params.id
+        if(id) {
+            getArticleById(id)
+        }
     }, []) // 数组为空表示进入页面内只执行一次
     return (
         <div>
@@ -136,7 +161,7 @@ function AddArticle(props) {
                         <Col span={20}>
                             <Input value={articleTitle} placeholder="博客标题" size="large" onChange={e => {
                                 setArticleTitle(e.target.value)
-                            }}/>
+                            }} />
                         </Col>
                         <Col span={4}>
                             &nbsp;
