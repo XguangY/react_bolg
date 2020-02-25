@@ -6,7 +6,8 @@ const servicePath = {
     getTypeInfo : ipUrl + 'getTypeInfo', // 获取文章类型
     addArticle : ipUrl + 'addArticle', // 添加文章
     updateArticle : ipUrl + 'updateArticle', // 修该文章
-    getArticleList : ipUrl + 'getArticleList' // 修该文章
+    getArticleList : ipUrl + 'getArticleList', // 修该文章
+    delArticle: ipUrl + 'delArticle/' // 删除文章
 }
 
 export default servicePath

@@ -6,27 +6,47 @@ import servicePath from '../config/apiUrl'
 import Item from 'antd/lib/list/Item';
 const { confirm } = Modal;
 
-function ArticleList(props){
+function ArticleList(props) {
 
-    const [list,setList]=useState([])
+    const [list, setList] = useState([])
 
     const getList = () => {
         axios({
-            method:'get',
+            method: 'get',
             url: servicePath.getArticleList,
             withCredentials: true,
-            header: { 'Access-Control-Allow-Origin':'*' }
+            header: { 'Access-Control-Allow-Origin': '*' }
         }).then(res => {
             setList(res.data.list)
         })
     }
+    
+    // 删除文章
+    const delArticle = (id) => {
+        confirm({
+            title: "确定要删除这篇博客文章吗?",
+            content: '如果你点击OK按钮，文章将会永远被删除，无法恢复。',
+            onOk() {
+                axios(servicePath.delArticle+id,{ withCredentials: true}).then(
+                    res=>{ 
+                        message.success('文章删除成功')
+                        getList()
+                        }
+                    )
+            },
+            onCancel() {
+                message.success('没有任何改变')
+            },
+        })
+    }
+
     useEffect(() => {
         getList()
     }, [])
-    
+
     return (
         <div>
-             <List
+            <List
                 header={
                     <Row className="list-div">
                         <Col span={8}>
@@ -60,7 +80,7 @@ function ArticleList(props){
                                 {item.title}
                             </Col>
                             <Col span={3}>
-                             {item.typeName}
+                                {item.typeName}
                             </Col>
                             <Col span={6}>
                                 {item.addTime}
@@ -69,19 +89,19 @@ function ArticleList(props){
                                 共<span>{item.part_count}</span>集
                             </Col> */}
                             <Col span={3}>
-                              {item.view_count}
+                                {item.view_count}
                             </Col>
 
                             <Col span={4}>
-                              <Button type="primary" >修改</Button>&nbsp;
+                                <Button type="primary" >修改</Button>&nbsp;
 
-                              <Button >删除 </Button>
+                              <Button onClick={()=>{delArticle(item.id)}} >删除 </Button>
                             </Col>
                         </Row>
 
                     </List.Item>
                 )}
-                />
+            />
 
         </div>
     )
